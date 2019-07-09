@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -240,7 +238,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		return "SolarBot";
 	}
 
-	@Override
+	@Override 
 	public String getBotToken() {
 
 		return "814488899:AAE7n6sUnclziB26FMtuw8HOmy8EEVH0x0c";

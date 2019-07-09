@@ -56,7 +56,7 @@ public class Messages {
 					   "Prima di inziare, per poter funzionare correttamente mi serve sapere la tua posizione attuale  :globe_with_meridians:\n"+
 					   "Verranno inviate solo latitudine e longitudine. \n"+
 					   "Ti basterà premere in basso Invia Posizione \n"+
-					   "Non dimenticarti che se ti sposti dovrai aggiornare la posizione sempre con il tasto Invia Posizione :wink:";
+					   "Non dimenticarti che se ti sposti dovrai aggiornare la posizione sempre con il tasto Imposta Posizione :wink:";
 		
 		return EmojiParser.parseToUnicode(message);
 	}
@@ -78,7 +78,7 @@ public class Messages {
 	
 	public static String utonto() {
 		String message=":warning: C'è tempo e luogo per ogni cosa, ma non ora\n"+
-					   " :arrow_heading_down: Prima devi inviare la tua posizione così da ottenere dati relativi alla tua posizione;";
+					   " :arrow_heading_down: Prima devi impostare la tua posizione così da ottenere dati corretti";
 	
 	return EmojiParser.parseToUnicode(message);
 	}
