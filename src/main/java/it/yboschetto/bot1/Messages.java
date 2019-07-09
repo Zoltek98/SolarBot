@@ -59,4 +59,12 @@ public class Messages {
 		return EmojiParser.parseToUnicode(message);
 	}
 	
+	public static String locationUpdated(double latitude,double longitude) {
+		String message=":globe_with_meridians: Nuova posizione impostata a\n"+
+					   ":triangular_flag_on_post: Latitudine:  "+latitude+"°\n"+
+					   ":triangular_flag_on_post: Longitudine: "+longitude+"°\n";
+		
+		return EmojiParser.parseToUnicode(message);
+	}
+	
 }

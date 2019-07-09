@@ -13,6 +13,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.vdurmont.emoji.EmojiParser;
@@ -39,6 +40,8 @@ public class SolarBot extends TelegramLongPollingBot {
 	KeyboardRow row2 = new KeyboardRow();
 	KeyboardRow row3 = new KeyboardRow();
 	KeyboardRow row4 = new KeyboardRow();
+	String message_text;
+	String answer = "NaN";
 	String username, commands, city = "";
 	String alba, tramonto;
 	Date adesso;
@@ -63,10 +66,9 @@ public class SolarBot extends TelegramLongPollingBot {
 	@Override
 	public void onUpdateReceived(Update update) {
 
-		String message_text = update.getMessage().getText();
+		message_text = update.getMessage().getText();
 		username = update.getMessage().getChat().getUserName();
 		long chat_id = update.getMessage().getChatId();
-
 		SendMessage message = new SendMessage().setChatId(chat_id);
 
 		if (update.hasMessage() && update.getMessage().hasText()) {
@@ -75,7 +77,7 @@ public class SolarBot extends TelegramLongPollingBot {
 			String user_last_name = update.getMessage().getChat().getLastName();
 			String user_username = update.getMessage().getChat().getUserName();
 			long user_id = update.getMessage().getChat().getId();
-			String answer = "NaN";
+			
 
 			init();
 			initPlanets();
@@ -186,6 +188,12 @@ public class SolarBot extends TelegramLongPollingBot {
 			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
 
 		}
+		else if(update.hasMessage() && update.getMessage().getLocation()!=null){
+			latitude=update.getMessage().getLocation().getLatitude();
+			longitude=update.getMessage().getLocation().getLongitude();
+			answer=Messages.locationUpdated(latitude,longitude);
+			message.setText(answer);
+		}
 
 		try {
 
@@ -237,11 +245,16 @@ public class SolarBot extends TelegramLongPollingBot {
 	}
 
 	private void setDefaultCommand() {
+		//row.add("Lista Visibili");
+		KeyboardButton key=new KeyboardButton();
+		key.setRequestLocation(true);
+		key.setText("Imposta posizione");
 		row.add("Lista Visibili");
 		row.add("Alba e Tramonto");
 		row.add("Oggetti");
 		keyboard.add(row);
 		row2.add("Lista comandi");
+		row2.add(key);
 		keyboard.add(row2);
 	}
 
