@@ -1,0 +1,21 @@
+-------------------------------------------------------------------------------
+Test set: it.yboschetto.bot1.Bot1ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.347 s <<< FAILURE! - in it.yboschetto.bot1.Bot1ApplicationTests
+contextLoads(it.yboschetto.bot1.Bot1ApplicationTests)  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'telegramBotInitializer' defined in class path resource [org/telegram/telegrambots/starter/TelegramBotStarterConfiguration.class]: Invocation of init method failed; nested exception is com.google.inject.ConfigurationException: Guice configuration errors:
+
+1) No implementation for org.telegram.telegrambots.meta.generics.BotSession was bound.
+  while locating org.telegram.telegrambots.meta.generics.BotSession
+
+1 error
+Caused by: com.google.inject.ConfigurationException: 
+Guice configuration errors:
+
+1) No implementation for org.telegram.telegrambots.meta.generics.BotSession was bound.
+  while locating org.telegram.telegrambots.meta.generics.BotSession
+
+1 error
+
