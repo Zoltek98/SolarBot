@@ -57,12 +57,11 @@ public class SolarBot extends TelegramLongPollingBot {
 	Nettuno nettuno;
 	int d;
 
-	double latitude = 45.71, longitude = 11.46;
+	double latitude = 0, longitude = 0;
 
 	@Value("${comands.list}")
 	private String[] comandi;
 
-	 
 	@Override
 	public void onUpdateReceived(Update update) {
 
@@ -77,17 +76,24 @@ public class SolarBot extends TelegramLongPollingBot {
 			String user_last_name = update.getMessage().getChat().getLastName();
 			String user_username = update.getMessage().getChat().getUserName();
 			long user_id = update.getMessage().getChat().getId();
-			
 
 			init();
 			initPlanets();
 			if (message_text.equals("/start")) {
 				clear();
-				commands = getCommands();
-				setDefaultCommand();
+				setFirstCommand();
 				keyboardMarkup.setKeyboard(keyboard);
+				keyboardMarkup.setResizeKeyboard(true);
+				
 				message.setReplyMarkup(keyboardMarkup);
-				answer=Messages.welcome(user_first_name,commands);
+			
+				answer=Messages.askPosition()+EmojiParser.parseToUnicode("\n\nEcco la lista dei comandi : \n:point_down::point_down::point_down:")+getCommands();
+				
+				message.setText(answer);
+			}
+			else if(latitude==0 && longitude==0) {//Controllo lat e long  prima di tutto il resto 
+				//Non ha immesso la posizione 
+				answer=Messages.utonto();
 				message.setText(answer);
 			}
 
@@ -97,6 +103,7 @@ public class SolarBot extends TelegramLongPollingBot {
 
 				setDefaultCommand();
 				keyboardMarkup.setKeyboard(keyboard);
+				keyboardMarkup.setResizeKeyboard(false);
 				message.setReplyMarkup(keyboardMarkup);
 				commands = getCommands();
 				answer = EmojiParser.parseToUnicode(
@@ -107,8 +114,8 @@ public class SolarBot extends TelegramLongPollingBot {
 				// Check oggetti visibili, per ora non fa niente
 				if (checkVisibles()) {
 
-					answer=Messages.planetsVisible(visibleObjectList);
-					
+					answer = Messages.planetsVisible(visibleObjectList);
+
 				} else {
 					answer = Messages.noPlanets(sole.getTramonto());
 				}
@@ -187,11 +194,24 @@ public class SolarBot extends TelegramLongPollingBot {
 
 			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
 
-		}
-		else if(update.hasMessage() && update.getMessage().getLocation()!=null){
-			latitude=update.getMessage().getLocation().getLatitude();
-			longitude=update.getMessage().getLocation().getLongitude();
-			answer=Messages.locationUpdated(latitude,longitude);
+		} else if (update.hasMessage() && update.getMessage().getLocation() != null) {
+			latitude = update.getMessage().getLocation().getLatitude();
+			longitude = update.getMessage().getLocation().getLongitude();
+			
+			init();
+			initPlanets();
+			commands = getCommands();
+			answer = Messages.locationUpdated(latitude, longitude);
+			
+				
+			
+			clear();
+			
+			setDefaultCommand();
+			keyboardMarkup.setKeyboard(keyboard);
+			keyboardMarkup.setResizeKeyboard(false);
+			message.setReplyMarkup(keyboardMarkup);
+			
 			message.setText(answer);
 		}
 
@@ -217,7 +237,7 @@ public class SolarBot extends TelegramLongPollingBot {
 
 	@Override
 	public String getBotUsername() {
-		return "SoalarBot";
+		return "SolarBot";
 	}
 
 	@Override
@@ -245,8 +265,8 @@ public class SolarBot extends TelegramLongPollingBot {
 	}
 
 	private void setDefaultCommand() {
-		//row.add("Lista Visibili");
-		KeyboardButton key=new KeyboardButton();
+		// row.add("Lista Visibili");
+		KeyboardButton key = new KeyboardButton();
 		key.setRequestLocation(true);
 		key.setText("Imposta posizione");
 		row.add("Lista Visibili");
@@ -256,6 +276,19 @@ public class SolarBot extends TelegramLongPollingBot {
 		row2.add("Lista comandi");
 		row2.add(key);
 		keyboard.add(row2);
+	}
+
+	public void setFirstCommand() {
+		// row.add("Lista Visibili");
+		KeyboardButton key = new KeyboardButton();
+		key.setRequestLocation(true);
+		key.setText(EmojiParser.parseToUnicode(":pushpin: Imposta posizione"));
+		
+		row.add(key);
+		keyboard.add(row2);
+		keyboard.add(row);
+		keyboard.add(row3);
+		
 	}
 
 	public boolean checkVisibles() {

@@ -51,6 +51,15 @@ public class Messages {
 		return EmojiParser.parseToUnicode(message);
 	}
 	
+	public static String askPosition() {
+		String message="Benvenuto in SolarBot :sunny:\n"+
+					   "Prima di inziare, per poter funzionare correttamente mi serve sapere la tua posizione attuale  :globe_with_meridians:\n"+
+					   "Verranno inviate solo latitudine e longitudine. \n"+
+					   "Ti basterà premere in basso Invia Posizione \n"+
+					   "Non dimenticarti che se ti sposti dovrai aggiornare la posizione sempre con il tasto Invia Posizione :wink:";
+		
+		return EmojiParser.parseToUnicode(message);
+	}
 	public static String welcome(String username,String commands) {
 		String message="Benvenuto "+username+ " in SolarBot\n"+
 					   "Ecco la lista dei comandi :	"+
@@ -65,6 +74,13 @@ public class Messages {
 					   ":triangular_flag_on_post: Longitudine: "+longitude+"°\n";
 		
 		return EmojiParser.parseToUnicode(message);
+	}
+	
+	public static String utonto() {
+		String message=":warning: C'è tempo e luogo per ogni cosa, ma non ora\n"+
+					   " :arrow_heading_down: Prima devi inviare la tua posizione così da ottenere dati relativi alla tua posizione;";
+	
+	return EmojiParser.parseToUnicode(message);
 	}
 	
 }
