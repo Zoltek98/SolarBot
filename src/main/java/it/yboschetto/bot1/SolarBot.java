@@ -27,12 +27,7 @@ import it.yboschetto.bot1.objects.Saturno;
 import it.yboschetto.bot1.objects.Sole;
 import it.yboschetto.bot1.objects.Urano;
 import it.yboschetto.bot1.objects.Venere;
-/**
- * 
- * @author bosyu
- * @version 0.2
- * 
- */
+
 @Component
 public class SolarBot extends TelegramLongPollingBot {
 
@@ -65,11 +60,11 @@ public class SolarBot extends TelegramLongPollingBot {
 	@Value("${comands.list}")
 	private String[] comandi;
 	
-	@Value("${telegram.bot.token}")
-	private String TOKEN;
-	
 	@Value("${telegram.bot.username}")
 	private String BOTNAME;
+	
+	@Value("${telegram.bot.token}")
+	private String TOKEN;
 
 	@Override
 	public void onUpdateReceived(Update update) {

@@ -78,7 +78,7 @@ public class Messages {
 	
 	public static String utonto() {
 		String message=":warning: C'è un luogo e un momento per ogni cosa! Ma non ora\n"+
-					   ":arrow_heading_down: Prima devi impostare la tua posizione così da ottenere dati corretti";
+					   " :arrow_heading_down: Prima devi impostare la tua posizione così da ottenere dati corretti";
 	
 	return EmojiParser.parseToUnicode(message);
 	}
