@@ -27,7 +27,12 @@ import it.yboschetto.bot1.objects.Saturno;
 import it.yboschetto.bot1.objects.Sole;
 import it.yboschetto.bot1.objects.Urano;
 import it.yboschetto.bot1.objects.Venere;
-
+/**
+ * 
+ * @author bosyu
+ * @version 0.2
+ * 
+ */
 @Component
 public class SolarBot extends TelegramLongPollingBot {
 
@@ -59,6 +64,12 @@ public class SolarBot extends TelegramLongPollingBot {
 
 	@Value("${comands.list}")
 	private String[] comandi;
+	
+	@Value("${telegram.bot.token}")
+	private String TOKEN;
+	
+	@Value("${telegram.bot.username}")
+	private String BOTNAME;
 
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -77,6 +88,7 @@ public class SolarBot extends TelegramLongPollingBot {
 
 			init();
 			initPlanets();
+			
 			if (message_text.equals("/start")) {
 				clear();
 				setFirstCommand();
@@ -91,8 +103,12 @@ public class SolarBot extends TelegramLongPollingBot {
 			}
 			else if(latitude==0 && longitude==0) {//Controllo lat e long  prima di tutto il resto 
 				//Non ha immesso la posizione 
-				answer=Messages.utonto();
-				message.setText(answer);
+				if(latitude==0 && longitude==0) {//Sei sicuro?
+					if(latitude==0 && longitude==0) {//SIcuro sicuro?
+						answer=Messages.utonto();
+						message.setText(answer);
+					}
+				}
 			}
 
 			else if (message_text.equals("/comandi") || message_text.equals("Lista comandi")) {
@@ -213,6 +229,7 @@ public class SolarBot extends TelegramLongPollingBot {
 			message.setText(answer);
 		}
 
+		System.out.println("\n ----------------------------\nLatitudine : "+latitude+"\nLongitudine : "+longitude);
 		try {
 
 			execute(message);
@@ -235,13 +252,13 @@ public class SolarBot extends TelegramLongPollingBot {
 
 	@Override
 	public String getBotUsername() {
-		return "SolarBot";
+		return BOTNAME;
 	}
 
 	@Override 
 	public String getBotToken() {
 
-		return "814488899:AAE7n6sUnclziB26FMtuw8HOmy8EEVH0x0c";
+		return TOKEN;
 	}
 
 	private void log(String first_name, String last_name, String user_id, String txt, String bot_answer) {
