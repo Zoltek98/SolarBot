@@ -27,7 +27,13 @@ import it.yboschetto.bot1.objects.Saturno;
 import it.yboschetto.bot1.objects.Sole;
 import it.yboschetto.bot1.objects.Urano;
 import it.yboschetto.bot1.objects.Venere;
-
+/**
+ * 
+ * @author bosyu
+ * @version 0.3
+ * SolarBot 
+ *
+ */
 @Component
 public class SolarBot extends TelegramLongPollingBot {
 
@@ -166,7 +172,11 @@ public class SolarBot extends TelegramLongPollingBot {
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
 				message.setText(message_text);
-			} else if (message_text.equals("Mercurio")) {
+			}else if(message_text.equals("sole")) {
+				answer=Messages.sunMessage(sole.getAlba(),sole.getTramonto(),Direzione.getDirezione(sole.getAzimuth()),sole.getAltitude());
+				message.setText(answer);
+				
+			}else if (message_text.equals("Mercurio")) {
 				answer = Messages.planetMessage("Mercurio", mercurio.getTramonto(), mercurio.getAlba(),
 						sole.getTramonto(), mercurio.Visibile(), Direzione.getDirezione(mercurio.getAzimuth()),
 						mercurio.getAltitude());

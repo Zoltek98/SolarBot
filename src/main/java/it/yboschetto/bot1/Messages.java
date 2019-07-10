@@ -82,5 +82,24 @@ public class Messages {
 	
 	return EmojiParser.parseToUnicode(message);
 	}
+
+	public static String sunMessage(String alba, String tramonto, String direzione, double altitude) {
+		double hTramontoSole,mTramontoSole;
+		hTramontoSole=Double.parseDouble(tramonto.substring(0, 2));
+		mTramontoSole=Double.parseDouble(tramonto.substring(3));
+		String message="";
+		Date nowDate=new Date();
+		if(nowDate.getHours()>hTramontoSole || (nowDate.getHours()==hTramontoSole && nowDate.getMinutes()>mTramontoSole)) {
+			message=":black_circle: Il sole è già tramontato\n\n"+
+					":arrow_up_small: Domani sorgerà alle "+alba+"\n"+
+					":point_right: In direzione Est";
+		}
+		else {
+			message=":sunny: Il sole è visibile in direzione "+direzione+"\n"+
+					":sunrise: Oggi il sole è sorto alle "+alba+"\n"+
+					":city_sunset: E tramonta alle "+tramonto;
+		}
+		return EmojiParser.parseToUnicode(message);
+	}
 	
 }
