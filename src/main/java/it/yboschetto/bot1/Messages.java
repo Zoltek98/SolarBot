@@ -101,5 +101,26 @@ public class Messages {
 		}
 		return EmojiParser.parseToUnicode(message);
 	}
+
+	public static String showCommands(String commands) {
+		String message="Ecco la lista dei comandi : \n:point_down::point_down::point_down: " + commands;
+		return EmojiParser.parseToUnicode(message);
+	}
+
+	public static String showSunRiseSet(String alba, String tramonto) {
+		String message=":sunrise: Alba: " + alba + "\n:city_sunset: Tramonto: " + tramonto;
+		return EmojiParser.parseToUnicode(message);
+	}
+
+	public static String showPlanetaryList() {
+		String message="Ecco la lista degli oggetti planetari : \n:point_down::point_down::point_down:";
+		return EmojiParser.parseToUnicode(message);
+	}
+
+	public static String commandNotFound(String commands) {
+		String message=":warning: Comando non trovato :warning:"+
+					   "Prova con uno di questi:"+commands;
+		return EmojiParser.parseToUnicode(message);
+	}
 	
 }

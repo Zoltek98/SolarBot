@@ -34,6 +34,7 @@ import it.yboschetto.bot1.objects.Venere;
  * SolarBot 
  *
  */
+
 @Component
 public class SolarBot extends TelegramLongPollingBot {
 
@@ -71,6 +72,9 @@ public class SolarBot extends TelegramLongPollingBot {
 	
 	@Value("${telegram.bot.token}")
 	private String TOKEN;
+	
+	@Value("${log.file.path}")
+	private String PATH;
 
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -102,10 +106,10 @@ public class SolarBot extends TelegramLongPollingBot {
 				
 				message.setText(answer);
 			}
-			else if(latitude==0 && longitude==0) {//Controllo lat e long  prima di tutto il resto 
-				//Non ha immesso la posizione 
-				if(latitude==0 && longitude==0) {//Sei sicuro?
-					if(latitude==0 && longitude==0) {//SIcuro sicuro?
+			else if(latitude==0 && longitude==0 && !message_text.equals(EmojiParser.parseToUnicode(":back: Torna indietro")) ) {			//Controllo lat e long  prima di tutto il resto 
+															//Non ha immesso la posizione 
+				if(latitude==0 && longitude==0) {			//Sei sicuro?
+					if(latitude==0 && longitude==0) {		//Sicuro sicuro?
 						answer=Messages.utonto();
 						message.setText(answer);
 					}
@@ -121,8 +125,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				keyboardMarkup.setResizeKeyboard(false);
 				message.setReplyMarkup(keyboardMarkup);
 				commands = getCommands();
-				answer = EmojiParser.parseToUnicode(
-						"Ecco la lista dei comandi : \n:point_down::point_down::point_down: " + commands);
+				answer = Messages.showCommands(commands);
 				message.setText(answer);
 			} else if (message_text.equals("Lista Visibili") || message_text.equals("/ListaVisibili")) {
 
@@ -140,8 +143,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				// Chiamata getAlba e getTramonto
 				alba = sole.getAlba();
 				tramonto = sole.getTramonto();
-				answer = EmojiParser
-						.parseToUnicode(":sunrise: Alba: " + alba + "\n:city_sunset: Tramonto: " + tramonto);
+				answer=Messages.showSunRiseSet(alba,tramonto);
 				message.setText(answer);
 			} else if (message_text.equals("Oggetti") || message_text.equals("/Oggetti")) {
 				clear();
@@ -162,8 +164,7 @@ public class SolarBot extends TelegramLongPollingBot {
 
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
-				answer = EmojiParser.parseToUnicode(
-						"Ecco la lista degli oggetti planetari : \n:point_down::point_down::point_down:");
+				answer=Messages.showPlanetaryList();
 				message.setText(answer);
 
 			} else if (message_text.equals(EmojiParser.parseToUnicode(":back: Torna indietro"))) {
@@ -172,10 +173,9 @@ public class SolarBot extends TelegramLongPollingBot {
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
 				message.setText(message_text);
-			}else if(message_text.equals("sole")) {
+			}else if(message_text.equals("Sole")) {
 				answer=Messages.sunMessage(sole.getAlba(),sole.getTramonto(),Direzione.getDirezione(sole.getAzimuth()),sole.getAltitude());
-				message.setText(answer);
-				
+				message.setText(answer);			
 			}else if (message_text.equals("Mercurio")) {
 				answer = Messages.planetMessage("Mercurio", mercurio.getTramonto(), mercurio.getAlba(),
 						sole.getTramonto(), mercurio.Visibile(), Direzione.getDirezione(mercurio.getAzimuth()),
@@ -221,9 +221,7 @@ public class SolarBot extends TelegramLongPollingBot {
 			initPlanets();
 			commands = getCommands();
 			answer = Messages.locationUpdated(latitude, longitude);
-			
 				
-			
 			clear();
 			
 			setDefaultCommand();
@@ -231,6 +229,10 @@ public class SolarBot extends TelegramLongPollingBot {
 			keyboardMarkup.setResizeKeyboard(false);
 			message.setReplyMarkup(keyboardMarkup);
 			
+			message.setText(answer);
+		}
+		else {
+			answer=Messages.commandNotFound(commands);
 			message.setText(answer);
 		}
 
@@ -262,7 +264,6 @@ public class SolarBot extends TelegramLongPollingBot {
 
 	@Override 
 	public String getBotToken() {
-
 		return TOKEN;
 	}
 
