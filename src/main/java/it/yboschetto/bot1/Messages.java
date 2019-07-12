@@ -30,8 +30,6 @@ public class Messages {
 					":arrow_down_small: Tramonta alle "+tramonto;
 		}
 		
-		
-		
 		return EmojiParser.parseToUnicode(message);
 	}
 	
@@ -116,7 +114,7 @@ public class Messages {
 		String message="Ecco la lista degli oggetti planetari : \n:point_down::point_down::point_down:";
 		return EmojiParser.parseToUnicode(message);
 	}
-
+	
 	public static String commandNotFound(String commands) {
 		String message=":warning: Comando non trovato :warning:"+
 					   "Prova con uno di questi:"+commands;

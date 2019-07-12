@@ -129,7 +129,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				message.setText(answer);
 			} else if (message_text.equals("Lista Visibili") || message_text.equals("/ListaVisibili")) {
 
-				// Check oggetti visibili, per ora non fa niente
+				// Check oggetti visibili
 				if (checkVisibles()) {
 
 					answer = Messages.planetsVisible(visibleObjectList);
@@ -306,9 +306,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		key.setText(EmojiParser.parseToUnicode(":pushpin: Imposta posizione"));
 		
 		row.add(key);
-		keyboard.add(row2);
 		keyboard.add(row);
-		keyboard.add(row3);
 		
 	}
 
