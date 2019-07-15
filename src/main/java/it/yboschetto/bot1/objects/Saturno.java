@@ -4,11 +4,14 @@ package it.yboschetto.bot1.objects;/*
  * and open the template in the editor.
  */
 
+import java.time.temporal.JulianFields;
 /**
  *
  * @author bosyu
  */
 import java.util.Date;
+
+import ch.qos.logback.classic.jul.JULHelper;
 
 public class Saturno {
       double N, i, w, a, e, M, L, E0, E1, x, y, r, v, ecl, lon, x2, y2, z, d, sup, ar, dec, AO, xorr, yorr, zorr, xorr2, xgsat, ygsat, zgsat;
@@ -110,7 +113,7 @@ public class Saturno {
         adesso.setMinutes(12);
         GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((adesso.getHours() - 1) + "." + (adesso.getMinutes() * 5 / 3));
+        UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
         LST = GMST0 + UTt * 15.04107 + longitudine;
         LHA = LST - ar;
         sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
@@ -138,13 +141,12 @@ public class Saturno {
         String formattata = "";
         GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((adesso.getHours() - 1) + "." + (adesso.getMinutes() * 5 / 3));
+        UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
         LST = GMST0 + UTt * 15.04107 + longitudine;
         LHA = LST - ar;
         sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
 
         h = Math.atan(sinH * 180 / pi);
-
 
         ar = LST;
         //AR=(AR%24);

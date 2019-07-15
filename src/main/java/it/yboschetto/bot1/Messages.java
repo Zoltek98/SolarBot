@@ -11,13 +11,10 @@ public class Messages {
 
 	static String message;
 	
-	public static String planetMessage(String name,String alba,String tramonto,String tramontoSole,boolean visibile,String direzione,double azimuth) {
+	public static String planetMessage(String name,String alba,String tramonto,Date tramontoSole,boolean visibile,String direzione,double azimuth) {
 		message="";
-		double hTramontoSole,mTramontoSole;
-		hTramontoSole=Double.parseDouble(tramontoSole.substring(0, 2));
-		mTramontoSole=Double.parseDouble(tramontoSole.substring(3));
 		Date nowDate=new Date();
-		if(nowDate.getHours()>hTramontoSole || (nowDate.getHours()==hTramontoSole && nowDate.getMinutes()>mTramontoSole)) {//se siamo dopo il tramonto
+		if(nowDate.after(tramontoSole)) {//se siamo dopo il tramonto
 			message=name+" :\n"+
 					((visibile)? ":telescope: " :":no_entry_sign: ")+"Attualmente "+((visibile)? "" :"non")+" visibile\n"+
 					":arrow_up_small: Sorge alle "+alba+"\n"+
@@ -83,13 +80,10 @@ public class Messages {
 	return EmojiParser.parseToUnicode(message);
 	}
 
-	public static String sunMessage(String alba, String tramonto, String direzione, double altitude) {
-		double hTramontoSole,mTramontoSole;
-		hTramontoSole=Double.parseDouble(tramonto.substring(0, 2));
-		mTramontoSole=Double.parseDouble(tramonto.substring(3));
+	public static String sunMessage(String alba, String tramonto, String direzione, double altitude,Date tramontoDate) {
 		message="";
 		Date nowDate=new Date();
-		if(nowDate.getHours()>hTramontoSole || (nowDate.getHours()==hTramontoSole && nowDate.getMinutes()>mTramontoSole)) {
+		if(nowDate.after(tramontoDate)) {
 			message=":black_circle: Il sole è già tramontato\n\n"+
 					":arrow_up_small: Domani sorgerà alle "+alba+"\n"+
 					":point_right: In direzione Est";

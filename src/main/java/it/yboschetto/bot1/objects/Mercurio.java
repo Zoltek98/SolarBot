@@ -89,7 +89,7 @@ public class Mercurio {
         adesso.setMinutes(12);
         GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((adesso.getHours() - 1) + "." + (adesso.getMinutes() * 5 / 3));
+        UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
         LST = GMST0 + UTt * 15.04107 + longitudine;
         LHA = LST - ar;
         sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
@@ -117,7 +117,7 @@ public class Mercurio {
         String formattata = "";
         GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((adesso.getHours() - 1) + "." + (adesso.getMinutes() * 5 / 3));
+        UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
         LST = GMST0 + UTt * 15.04107 + longitudine;
         LHA = LST - ar;
         sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
