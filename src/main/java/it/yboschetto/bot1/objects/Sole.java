@@ -4,6 +4,9 @@ package it.yboschetto.bot1.objects;/*
  * and open the template in the editor.
  */
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * @author bosyu
  */
@@ -189,6 +192,7 @@ public class Sole {
         return formattata;
 
     }
+    
 
     public String format(double orario) {
 
@@ -206,5 +210,31 @@ public class Sole {
         }
         orario_formattato = hh + ":" + sMm;
         return orario_formattato;
+    }
+    
+    public Date getDateTramonto() {
+    	String tramonto=getTramonto();
+    	SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+    	Date date=new Date();
+    	try {
+			date=sdf.parse(tramonto);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return date;
+    	
+    }
+    
+    public Date getDateAlba() {
+    	String alba=getAlba();
+    	SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+    	Date date=new Date();
+    	try {
+			date=sdf.parse(alba);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return date;
+    	
     }
 }

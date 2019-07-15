@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -104,14 +106,12 @@ public class SolarBot extends TelegramLongPollingBot {
 			
 				answer=Messages.askPosition()+EmojiParser.parseToUnicode("\n\nEcco la lista dei comandi : \n:point_down::point_down::point_down:")+getCommands();
 				
-				message.setText(answer);
 			}
 			else if(latitude==0 && longitude==0 && !message_text.equals(EmojiParser.parseToUnicode(":back: Torna indietro")) ) {			//Controllo lat e long  prima di tutto il resto 
 															//Non ha immesso la posizione 
 				if(latitude==0 && longitude==0) {			//Sei sicuro?
 					if(latitude==0 && longitude==0) {		//Sicuro sicuro?
 						answer=Messages.utonto();
-						message.setText(answer);
 					}
 				}
 			}
@@ -126,7 +126,6 @@ public class SolarBot extends TelegramLongPollingBot {
 				message.setReplyMarkup(keyboardMarkup);
 				commands = getCommands();
 				answer = Messages.showCommands(commands);
-				message.setText(answer);
 			} else if (message_text.equals("Lista Visibili") || message_text.equals("/ListaVisibili")) {
 
 				// Check oggetti visibili
@@ -137,14 +136,12 @@ public class SolarBot extends TelegramLongPollingBot {
 				} else {
 					answer = Messages.noPlanets(sole.getTramonto());
 				}
-				message.setText(answer);
 			} else if (message_text.equals("Alba e Tramonto") || message_text.equals("/AlbaTramonto")) {
 
 				// Chiamata getAlba e getTramonto
 				alba = sole.getAlba();
 				tramonto = sole.getTramonto();
 				answer=Messages.showSunRiseSet(alba,tramonto);
-				message.setText(answer);
 			} else if (message_text.equals("Oggetti") || message_text.equals("/Oggetti")) {
 				clear();
 				row.add("Sole");
@@ -165,50 +162,42 @@ public class SolarBot extends TelegramLongPollingBot {
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
 				answer=Messages.showPlanetaryList();
-				message.setText(answer);
 
 			} else if (message_text.equals(EmojiParser.parseToUnicode(":back: Torna indietro"))) {
 				clear();
 				setDefaultCommand();
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
-				message.setText(message_text);
+				answer=message_text;
 			}else if(message_text.equals("Sole")) {
-				answer=Messages.sunMessage(sole.getAlba(),sole.getTramonto(),Direzione.getDirezione(sole.getAzimuth()),sole.getAltitude());
-				message.setText(answer);			
+				answer=Messages.sunMessage(sole.getAlba(),sole.getTramonto(),Direzione.getDirezione(sole.getAzimuth()),sole.getAltitude());			
 			}else if (message_text.equals("Mercurio")) {
 				answer = Messages.planetMessage("Mercurio", mercurio.getTramonto(), mercurio.getAlba(),
 						sole.getTramonto(), mercurio.Visibile(), Direzione.getDirezione(mercurio.getAzimuth()),
 						mercurio.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Venere")) {
 				answer = Messages.planetMessage("Venere", venere.getTramonto(), venere.getAlba(), sole.getTramonto(),
 						venere.Visibile(), Direzione.getDirezione(venere.getAzimuth()), venere.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Luna")) {
 				answer = Messages.planetMessage("Luna", luna.getTramonto(), luna.getAlba(), sole.getTramonto(),
 						luna.Visibile(), Direzione.getDirezione(luna.getAzimuth()), luna.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Marte")) {
 				answer = Messages.planetMessage("Marte", marte.getTramonto(), marte.getAlba(), sole.getTramonto(),
 						marte.Visibile(), Direzione.getDirezione(marte.getAzimuth()), marte.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Giove")) {
 				answer = Messages.planetMessage("Giove", giove.getTramonto(), giove.getAlba(), sole.getTramonto(),
 						giove.Visibile(), Direzione.getDirezione(giove.getAzimuth()), giove.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Saturno")) {
 				answer = Messages.planetMessage("Saturno", saturno.getTramonto(), saturno.getAlba(), sole.getTramonto(),
 						saturno.Visibile(), Direzione.getDirezione(saturno.getAzimuth()), saturno.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Urano")) {
 				answer = Messages.planetMessage("Urano", urano.getTramonto(), urano.getAlba(), sole.getTramonto(),
 						urano.Visibile(), Direzione.getDirezione(urano.getAzimuth()), urano.getAltitude());
-				message.setText(answer);
 			} else if (message_text.equals("Nettuno")) {
 				answer = Messages.planetMessage("Nettuno", nettuno.getTramonto(), nettuno.getAlba(), sole.getTramonto(),
 						nettuno.Visibile(), Direzione.getDirezione(nettuno.getAzimuth()), nettuno.getAltitude());
-				message.setText(answer);
+			} else if(message_text.equals("42")) {
+				//Robe
 			}
 
 			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
@@ -229,16 +218,14 @@ public class SolarBot extends TelegramLongPollingBot {
 			keyboardMarkup.setResizeKeyboard(false);
 			message.setReplyMarkup(keyboardMarkup);
 			
-			message.setText(answer);
 		}
 		else {
 			answer=Messages.commandNotFound(commands);
-			message.setText(answer);
 		}
 
 		System.out.println("\n ----------------------------\nLatitudine : "+latitude+"\nLongitudine : "+longitude);
 		try {
-
+			message.setText(answer);
 			execute(message);
 
 		} catch (TelegramApiException e) {
@@ -275,6 +262,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		System.out
 				.println("Message from " + first_name + " " + last_name + ". (id = " + user_id + ") \n Text - " + txt);
 		System.out.println("Bot answer: \n Text - " + bot_answer);
+	
 	}
 
 	private void clear() {
@@ -312,10 +300,8 @@ public class SolarBot extends TelegramLongPollingBot {
 
 	public boolean checkVisibles() {
 
-		double hTramonto = Double.parseDouble(sole.getTramonto().substring(0, 2));
-		double mTramonto = Double.parseDouble(sole.getTramonto().substring(3));
 		visibleObjectList.clear();
-		if (adesso.getHours() > hTramonto || (adesso.getHours() == hTramonto && adesso.getMinutes() > mTramonto)) {
+		if (adesso.after(sole.getDateTramonto()) || adesso.before(sole.getDateAlba())) {
 			// Se è notte
 			if (mercurio.Visibile()) {
 				visibleObjectList.add(new GenericObject("Mercurio", "", "", 1, mercurio.getAzimuth()));
