@@ -12,7 +12,7 @@ public class Messages {
 	static String message;
 	
 	public static String planetMessage(String name,String alba,String tramonto,Date tramontoSole,boolean visibile,String direzione,double azimuth) {
-		message="";
+
 		Date nowDate=new Date();
 		if(nowDate.after(tramontoSole)) {//se siamo dopo il tramonto
 			message=name+" :\n"+
@@ -32,9 +32,7 @@ public class Messages {
 		return EmojiParser.parseToUnicode(message);
 	}
 	
-	public static String noPlanets(String tramonto) {
-		message="";
-		
+	public static String noPlanets(String tramonto) {		
 		message="Goditi il sole fino alle "+tramonto+" :sunglasses:\n"+"Nessun'altro oggetto è visible";
 		return EmojiParser.parseToUnicode(message);
 	}
@@ -81,7 +79,7 @@ public class Messages {
 	}
 
 	public static String sunMessage(String alba, String tramonto, String direzione, double altitude,Date tramontoDate) {
-		message="";
+		
 		Date nowDate=new Date();
 		if(nowDate.after(tramontoDate)) {
 			message=":black_circle: Il sole è già tramontato\n\n"+

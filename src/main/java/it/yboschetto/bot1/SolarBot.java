@@ -338,11 +338,6 @@ public class SolarBot extends TelegramLongPollingBot {
 
 		sole = new Sole(d, ecl, adesso);
 		sole.Posizione(latitude, longitude);
-		
-			/*
-			 * jd = 367Y- int(7(y+5001+int((m-9)/12))/4)	
-			 * d=367*(1900+adesso.getyear())
-			 */
 				
 
 	}
