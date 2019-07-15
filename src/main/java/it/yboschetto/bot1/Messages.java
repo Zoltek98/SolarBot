@@ -9,8 +9,10 @@ import it.yboschetto.bot1.objects.GenericObject;
 
 public class Messages {
 
+	static String message;
+	
 	public static String planetMessage(String name,String alba,String tramonto,String tramontoSole,boolean visibile,String direzione,double azimuth) {
-		String message="";
+		message="";
 		double hTramontoSole,mTramontoSole;
 		hTramontoSole=Double.parseDouble(tramontoSole.substring(0, 2));
 		mTramontoSole=Double.parseDouble(tramontoSole.substring(3));
@@ -34,14 +36,14 @@ public class Messages {
 	}
 	
 	public static String noPlanets(String tramonto) {
-		String message="";
+		message="";
 		
 		message="Goditi il sole fino alle "+tramonto+" :sunglasses:\n"+"Nessun'altro oggetto è visible";
 		return EmojiParser.parseToUnicode(message);
 	}
 	
 	public static String planetsVisible(List<GenericObject> list) {
-		String message=":telescope: Alza gli occhi al cielo, puoi vedere:\n\n";
+		message=":telescope: Alza gli occhi al cielo, puoi vedere:\n\n";
 		
 		for(int i=0;i<list.size();i++) {
 			message+=String.format(":point_right: "+list.get(i).getName()+" in direzione %-28s\n",list.get(i).getDirezione());
@@ -50,7 +52,7 @@ public class Messages {
 	}
 	
 	public static String askPosition() {
-		String message="Benvenuto in SolarBot :sunny:\n"+
+		message="Benvenuto in SolarBot :sunny:\n"+
 					   "Prima di inziare, per poter funzionare correttamente mi serve sapere la tua posizione attuale  :globe_with_meridians:\n"+
 					   "Verranno inviate solo latitudine e longitudine. \n"+
 					   "Ti basterà premere in basso Invia Posizione \n"+
@@ -59,7 +61,7 @@ public class Messages {
 		return EmojiParser.parseToUnicode(message);
 	}
 	public static String welcome(String username,String commands) {
-		String message="Benvenuto "+username+ " in SolarBot\n"+
+		message="Benvenuto "+username+ " in SolarBot\n"+
 					   "Ecco la lista dei comandi :	"+
 					    commands;
 		
@@ -67,7 +69,7 @@ public class Messages {
 	}
 	
 	public static String locationUpdated(double latitude,double longitude) {
-		String message=":globe_with_meridians: Nuova posizione impostata a\n"+
+		message=":globe_with_meridians: Nuova posizione impostata a\n"+
 					   ":triangular_flag_on_post: Latitudine:  "+latitude+"°\n"+
 					   ":triangular_flag_on_post: Longitudine: "+longitude+"°\n";
 		
@@ -75,7 +77,7 @@ public class Messages {
 	}
 	
 	public static String utonto() {
-		String message=":warning: C'è un luogo e un momento per ogni cosa! Ma non ora\n"+
+		message=":warning: C'è un luogo e un momento per ogni cosa! Ma non ora\n"+
 					   " :arrow_heading_down: Prima devi impostare la tua posizione così da ottenere dati corretti";
 	
 	return EmojiParser.parseToUnicode(message);
@@ -85,7 +87,7 @@ public class Messages {
 		double hTramontoSole,mTramontoSole;
 		hTramontoSole=Double.parseDouble(tramonto.substring(0, 2));
 		mTramontoSole=Double.parseDouble(tramonto.substring(3));
-		String message="";
+		message="";
 		Date nowDate=new Date();
 		if(nowDate.getHours()>hTramontoSole || (nowDate.getHours()==hTramontoSole && nowDate.getMinutes()>mTramontoSole)) {
 			message=":black_circle: Il sole è già tramontato\n\n"+
@@ -101,22 +103,22 @@ public class Messages {
 	}
 
 	public static String showCommands(String commands) {
-		String message="Ecco la lista dei comandi : \n:point_down::point_down::point_down: " + commands;
+		message="Ecco la lista dei comandi : \n:point_down::point_down::point_down: " + commands;
 		return EmojiParser.parseToUnicode(message);
 	}
 
 	public static String showSunRiseSet(String alba, String tramonto) {
-		String message=":sunrise: Alba: " + alba + "\n:city_sunset: Tramonto: " + tramonto;
+		message=":sunrise: Alba: " + alba + "\n:city_sunset: Tramonto: " + tramonto;
 		return EmojiParser.parseToUnicode(message);
 	}
 
 	public static String showPlanetaryList() {
-		String message="Ecco la lista degli oggetti planetari : \n:point_down::point_down::point_down:";
+		message="Ecco la lista degli oggetti planetari : \n:point_down::point_down::point_down:";
 		return EmojiParser.parseToUnicode(message);
 	}
 	
 	public static String commandNotFound(String commands) {
-		String message=":warning: Comando non trovato :warning:"+
+		message=":warning: Comando non trovato :warning:"+
 					   "Prova con uno di questi:"+commands;
 		return EmojiParser.parseToUnicode(message);
 	}
