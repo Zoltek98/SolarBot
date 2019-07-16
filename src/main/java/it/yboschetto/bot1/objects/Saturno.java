@@ -24,12 +24,24 @@ public class Saturno {
             this.ecl = ecl;
             this.d = d;
             adesso = ora;
-            N = Sole.rev(113.6634 + 2.38980E-5 * d);
+            /*
+             * N = Sole.rev(113.6634 + 2.38980E-5 * d);
             i = Sole.rev(2.4886 - 1.081E-7 * d);
             w = Sole.rev(339.3939 + 2.97661E-5 * d);
-            a = 9.55475;
+            a = 9.577678319134229E+00;
             e = Sole.rev(0.055546 - 9.499E-9 * d);
             M = Sole.rev(316.9670 + 0.0334442282 * d);
+             * 
+             * 
+             * 
+             */
+            N = Sole.rev(113.6634 +2.38980E-5 * d);
+            i = 2.4886;
+            w = 339.3939;
+            a = 9.577678319134229E+00;
+            e = 0.055546;
+            M = Sole.rev(0.0334442282 * d);
+            
         }
     public void Posizione(double latitudine, double longitudine)
     {
@@ -127,9 +139,9 @@ public class Saturno {
 
         cosLHA = (Math.sin(-0.833 * pi / 180) - Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180)) / (Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180));
 
-            LHA = (Math.acos(cosLHA) * 180 / pi) / 15.04107;
-            hAlba = UT_Sole_al_sud - LHA + 2;
-            formattata = format(hAlba);
+        LHA = (Math.acos(cosLHA) * 180 / pi) / 15.04107;
+        hAlba = UT_Sole_al_sud - LHA + 2;
+        formattata = format(hAlba);
 
         return formattata;
 

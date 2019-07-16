@@ -136,7 +136,7 @@ public class Sole {
 		// Assegno adesso a mezzogiorno per calcolare GMST0 a metà giornata ed avere i
 		// calcoli gisuti
 		adesso.setHours(12);
-		adesso.setMinutes(27);
+		adesso.setMinutes(29);
 		GMST0 = L + 180;
 		L = M + w;
 		UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
@@ -164,7 +164,7 @@ public class Sole {
 
 	public String getTramonto() {
 		adesso.setHours(12);
-		adesso.setMinutes(30);
+		adesso.setMinutes(14);
 		String formattata = "";
 		GMST0 = L + 180;
 		L = M + w;

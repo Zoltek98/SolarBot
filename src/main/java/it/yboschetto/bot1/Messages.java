@@ -116,7 +116,7 @@ public class Messages {
 	}
 
 	public static String quiet() {
-		message="Capisco che sei arrabbiato, ma piano con le parole";
+		message=":negative_squared_cross_mark: Capisco che sei arrabbiato,\nma piano con le parole :raised_hands:";
 		return EmojiParser.parseToUnicode(message);
 	}
 	

@@ -1,20 +1,17 @@
 package it.yboschetto.bot1;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -67,7 +64,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	Urano urano;
 	Nettuno nettuno;
 	double d;
-	int GMT=2;
+	double GMT=2;
 
 	double latitude = 0, longitude = 0;
 
@@ -355,7 +352,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	public void init() {
 		adesso = new Date();
 		d = 367 * (1900 + adesso.getYear()) - 7 * ((1900 + adesso.getYear()) + ((1 + adesso.getMonth()) + 9) / 12) / 4
-				+ 275 * (1 + adesso.getMonth()) / 9 + adesso.getDate() +1721013.5+(adesso.getHours()-GMT)/24  ;//- 730530;
+				+ 275 * (1 + adesso.getMonth()) / 9 + adesso.getDate() +1721013.5+(adesso.getHours()-GMT)/24  ;
 		ecl = 23.4393 - 3.563E-7 * d;
 
 		sole = new Sole(d, ecl, adesso);
