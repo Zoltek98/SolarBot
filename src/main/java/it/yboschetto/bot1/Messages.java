@@ -114,5 +114,10 @@ public class Messages {
 					   "Prova con uno di questi:"+commands;
 		return EmojiParser.parseToUnicode(message);
 	}
+
+	public static String quiet() {
+		message="Capisco che sei arrabbiato, ma piano con le parole";
+		return EmojiParser.parseToUnicode(message);
+	}
 	
 }

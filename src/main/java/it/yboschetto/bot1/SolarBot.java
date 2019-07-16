@@ -1,5 +1,7 @@
 package it.yboschetto.bot1;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -193,8 +197,26 @@ public class SolarBot extends TelegramLongPollingBot {
 				answer = Messages.planetMessage("Nettuno", nettuno.getTramonto(), nettuno.getAlba(), sole.getDateTramonto(),
 						nettuno.Visibile(), Direzione.getDirezione(nettuno.getAzimuth()), nettuno.getAltitude());
 			} else if(message_text.equals("42")) {
-				//Robe
+				// Inizio EasterEgg
+				
+				SendPhoto msg;
+				try {
+					msg = new SendPhoto()
+							.setChatId(chat_id)
+							.setPhoto("42",new FileInputStream("img/42.jpg"))
+							.setCaption("42");
+					
+					execute(msg);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				answer="Il senso della vita";
+			} else if(message_text.contains("dio") || message_text.contains("Dio")) {
+				answer=Messages.quiet();
 			}
+			
+			//Fine easter egg
+			
 
 			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
 
@@ -221,7 +243,7 @@ public class SolarBot extends TelegramLongPollingBot {
 
 		System.out.println("\n ----------------------------\nLatitudine : "+latitude+"\nLongitudine : "+longitude);
 		try {
-			
+			//System.out.println(System.getProperty("user.dir"));
 			message.setText(answer); 
 			execute(message);
 
