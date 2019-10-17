@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
+import newObjects.Utility;
+
 public class Sole {
 	private double w, a, e, M, L, E, x, y, r, v, ecl, lon, x2, y2, z, xequat, yequat, zequat, min, sec;
 	private double pi = 3.14159265358979323846;
@@ -131,66 +133,55 @@ public class Sole {
 	}
 
 	public String getAlba() {
-		String formattata = "";
-
-		// Assegno adesso a mezzogiorno per calcolare GMST0 a metà giornata ed avere i
-		// calcoli gisuti
+		
 		adesso.setHours(12);
-		adesso.setMinutes(29);
+        adesso.setMinutes(10);
 		GMST0 = L + 180;
-		L = M + w;
-		UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
-		LST = GMST0 + UTt * 15 + longitudine;
-		LHA = LST - AR;
-		sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180)
-				* Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
+        L = M + w;
+        UTt = Double.parseDouble((int)(adesso.getHours() - Utility.GMT) + "." + (int)(adesso.getMinutes() * 5 / 3));
+        LST = GMST0 + UTt * 15.04107 + longitudine;
+        LHA = LST - AR;
+        sinH = Math.sin(latitudine * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180) * Math.cos(latitudine * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180) * Math.cos(LHA * Utility.PI / 180);
 
-		h = Math.atan(sinH * 180 / pi);
+        h = Math.atan(sinH * 180 / Utility.PI);
 
-		AR = LST;
-		// AR=(AR%24);
-		UT_Sole_al_sud = (AR - GMST0 - longitudine) / 15;
 
-		cosLHA = (Math.sin(-0.833 * pi / 180) - Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180))
-				/ (Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180));
-		if (true) {
-			LHA = (Math.acos(cosLHA) * 180 / pi) / 15;
-			hAlba = UT_Sole_al_sud - LHA + 2;
-			formattata = format(hAlba);
-		}
-		return formattata;
+        AR = LST;
+        //AR=(AR%24);
+        UT_Sole_al_sud = (AR - GMST0 - longitudine) / 15.04107;
+
+        cosLHA = (Math.sin(-0.833 * Utility.PI / 180) - Math.sin(latitudine * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180)) / (Math.cos(latitudine * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180));
+
+        LHA = (Math.acos(cosLHA) * 180 / Utility.PI) / 15.04107;
+        hAlba = UT_Sole_al_sud - LHA + Utility.GMT;
+		return Utility.format(hAlba);
 
 	}
 
 	public String getTramonto() {
 		adesso.setHours(12);
-		adesso.setMinutes(14);
-		String formattata = "";
-		GMST0 = L + 180;
-		L = M + w;
-		UTt = Double.parseDouble((adesso.getHours() - 2) + "." + (adesso.getMinutes() * 5 / 3));
-		LST = GMST0 + UTt * 15 + longitudine;
-		LHA = LST - AR;
-		sinH = Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180) * Math.cos(latitudine * pi / 180)
-				* Math.cos(dec * pi / 180) * Math.cos(LHA * pi / 180);
+        adesso.setMinutes(0);
+        String formattata = "";
+        GMST0 = L + 180;
+        L = M + w;
+        UTt = Double.parseDouble((int)(adesso.getHours()) + "." + (int)(adesso.getMinutes() * 5.0 / 3));
+        LST = GMST0 + UTt * 15.04107 + longitudine;
+        LHA = LST - AR;
+        sinH = Math.sin(latitudine * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180) * Math.cos(latitudine * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180) * Math.cos(LHA * Utility.PI / 180);
 
-		h = Math.atan(sinH * 180 / pi);
+        h = Math.atan(sinH * 180 / Utility.PI);
 
-		AR = LST;
-		// AR=(AR%24);
-		UT_Sole_al_sud = (AR - GMST0 - longitudine) / 15;
 
-		cosLHA = (Math.sin(-0.833 * pi / 180) - Math.sin(latitudine * pi / 180) * Math.sin(dec * pi / 180))
-				/ (Math.cos(latitudine * pi / 180) * Math.cos(dec * pi / 180));
+        AR = LST;
+        //AR=(AR%24);
+        UT_Sole_al_sud = (AR - GMST0 - longitudine) / 15.04107;
 
-		if (true) {
-			LHA = (Math.acos(cosLHA) * 180 / pi) / 15;
-			hTramonto = UT_Sole_al_sud + LHA + 4;
-			// hAlba=(hAlba%24);
-			formattata = format(hTramonto);
-		}
+        cosLHA = (Math.sin(-0.833 * Utility.PI / 180) - Math.sin(latitudine * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180)) / (Math.cos(latitudine * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180));
 
-		return formattata;
+        LHA = (Math.acos(cosLHA) * 180 / Utility.PI) / 15.04107;
+        hTramonto = UT_Sole_al_sud + LHA + Utility.GMT;
+        
+        return Utility.format(hTramonto);
 
 	}
 

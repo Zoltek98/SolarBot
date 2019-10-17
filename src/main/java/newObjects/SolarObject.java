@@ -47,7 +47,7 @@ public class SolarObject {
         xgmer = sole.getXequat()+ xeclip;
         ygmer = sole.getYequat() + yeclip;
         zgmer = sole.getZequat() + zeclip;
-        ar = Sole.rev(Math.atan2(ygmer, xgmer) * 180 / Utility.PI);
+        ar = Utility.rev(Math.atan2(ygmer, xgmer) * 180 / Utility.PI);
         dec = Math.atan2(zgmer, Math.sqrt(xgmer * xgmer + ygmer * ygmer)) * 180 / Utility.PI;
         temposid=sole.getTemposid();
         AO = (temposid - ar / 15) * 15;
@@ -83,7 +83,7 @@ public class SolarObject {
 	public String getAlba() {
 		GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((now.getHours() - Utility.GMT) + "." + (now.getMinutes() * 5 / 3));
+        UTt = Double.parseDouble((int)(now.getHours() - Utility.GMT) + "." + (int)(now.getMinutes() * 5 / 3));
         LST = GMST0 + UTt * 15.04107 + longitude;
         LHA = LST - ar;
         sinH = Math.sin(latitude * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180) * Math.cos(latitude * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180) * Math.cos(LHA * Utility.PI / 180);
@@ -104,11 +104,11 @@ public class SolarObject {
 	public String getTramonto() {
 		
 		now.setHours(12);
-        now.setMinutes(14);
+        now.setMinutes(0);
         String formattata = "";
         GMST0 = L + 180;
         L = M + w;
-        UTt = Double.parseDouble((now.getHours() - Utility.GMT) + "." + (now.getMinutes() * 5.0 / 3));
+        UTt = Double.parseDouble((int)(now.getHours() - Utility.GMT) + "." + (int)(now.getMinutes() * 5.0 / 3));
         LST = GMST0 + UTt * 15.04107 + longitude;
         LHA = LST - ar;
         sinH = Math.sin(latitude * Utility.PI / 180) * Math.sin(dec * Utility.PI / 180) * Math.cos(latitude * Utility.PI / 180) * Math.cos(dec * Utility.PI / 180) * Math.cos(LHA * Utility.PI / 180);

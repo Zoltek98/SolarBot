@@ -11,7 +11,7 @@ public class Messages {
 
 	static String message;
 	
-	public static String planetMessage(String name,String alba,String tramonto,Date tramontoSole,boolean visibile,String direzione,double azimuth) {
+	public static String planetMessage(String name,String tramonto,String alba,Date tramontoSole,boolean visibile,String direzione,double azimuth) {
 
 		Date nowDate=new Date();
 		if(nowDate.after(tramontoSole)) {//se siamo dopo il tramonto
