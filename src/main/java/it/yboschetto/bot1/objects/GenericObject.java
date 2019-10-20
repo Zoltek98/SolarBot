@@ -65,6 +65,6 @@ public class GenericObject {
     }
 
     public String getDirezione(){
-        return Direzione.getDirezione(azimuth);
+        return Utility.getDirezione(azimuth);
     }
 }

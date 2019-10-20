@@ -1,13 +1,17 @@
-package newObjects;
+package it.yboschetto.bot1.objects;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utility {
 
-	private static double d,ecl;
+	private static double JD,ecl;
 	public final static double GMT=2;
 	public final static double PI = 3.14159265358979323846;
+    static double RAD = PI / 180;
+    static double DEG = 180 / PI;
+    private static double hour,minutes,seconds;
 	
 	public static String getDirezione(double azimuth){
         String direzione="";
@@ -66,14 +70,29 @@ public class Utility {
         return direzione;
     }
 	
-	public static void calculateJulianDate(Date adesso) {
-		d = 367 * (1900 + adesso.getYear()) - 7 * ((1900 + adesso.getYear()) + ((1 + adesso.getMonth()) + 9) / 12) / 4
-				+ 275 * (1 + adesso.getMonth()) / 9 + adesso.getDate() +1721013.5+(adesso.getHours()-GMT)/24  ;
-		ecl = 23.4393 - 3.563E-7 * d;
+	public static void calculateJulianDate(Calendar adesso) {
+        int day,month,year;
+        Calendar calendar=adesso;
+        day = calendar.get(Calendar.DATE);
+        month = calendar.get(Calendar.MONTH) + 1;
+        year = calendar.get(Calendar.YEAR);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        //day = 19;
+        //month = 4;
+        //year = 1990;
+        //hour = 0;
+        //minutes = 0;
+
+
+
+        JD = 367 * year - (7 * (year + (month + 9)/12))/4 + (275 * month)/9 + day + (hour/24.0) - 730530;
+
+        ecl = 23.4393 - 3.563E-7 * JD;
 	}
 
 	public static double getD() {
-		return d;
+		return JD;
 	}
 	
 	public static double getEcl() {
@@ -95,6 +114,20 @@ public class Utility {
 		return n;
 		
 	}
+
+    public static double rev24(double n) {
+        if(n<0) {
+            while(n<0) {
+                n+=24;
+            }
+        }
+        if(n>24) {
+            while(n>24) {
+                n-=24;
+            }
+        }
+        return n;
+    }
 	
 	public static String format(double orario) {    //   #Poverate
 
@@ -130,4 +163,22 @@ public class Utility {
 	public static double getGMT() {
 		return GMT;
 	}
+
+	public static String addZero(double d){
+	    if(d < 10 && d > 0 ){
+	        return "0"+(int)d;
+        }
+	    else
+	        return (int)d+"";
+    }
+
+    public static double getHour(){
+
+	    minutes = Calendar.getInstance().get(Calendar.MINUTE);
+	    seconds = Calendar.getInstance().get(Calendar.SECOND);
+	    //hh.mmss
+        minutes = (minutes * 5/3)/100;
+        seconds = (seconds *5/3)/10000;
+	    return hour+minutes+seconds ;
+    }
 }

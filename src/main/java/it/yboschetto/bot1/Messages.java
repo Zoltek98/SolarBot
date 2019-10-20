@@ -16,10 +16,10 @@ public class Messages {
 		Date nowDate=new Date();
 		if(nowDate.after(tramontoSole)) {//se siamo dopo il tramonto
 			message=name+" :\n"+
-					((visibile)? ":telescope: " :":no_entry_sign: ")+"Attualmente "+((visibile)? "" :"non")+" visibile\n"+
+					((visibile)? ":telescope: " :":no_entry_sign: ")+"Attualmente "+((visibile)? "" :"non")+" visibile"+
+					((visibile)?"\n:globe_with_meridians: In direzione "+direzione+"\n:point_up: A "+(int)azimuth+"° sull'orrizzonte":"")+"\n"+
 					":arrow_up_small: Sorge alle "+alba+"\n"+
-					":arrow_down_small: Tramonta alle "+tramonto+
-					((visibile)?"\n:globe_with_meridians: In direzione "+direzione+"\n:point_up: A "+(int)azimuth+"° sull'orrizzonte":"");
+					":arrow_down_small: Tramonta alle "+tramonto;
 		
 		}
 		else {//siamo prima del tramonto
@@ -27,6 +27,27 @@ public class Messages {
 					((visibile)? ":sunny: " :":no_entry_sign: ")+"Attualmente "+((visibile)? "sarebbe visibile \n						ma il sole non è ancora tramontato" :"non visibile")+" \n"+
 					":arrow_up_small: Sorge alle "+alba+"\n"+
 					":arrow_down_small: Tramonta alle "+tramonto;
+		}
+		
+		return EmojiParser.parseToUnicode(message);
+	}
+	
+	public static String moonMessage(String tramonto,String alba,boolean visibile,String direzione,double azimuth,String phase,String emoji) {
+		message = "Luna :\n";
+		if(visibile && !phase.equals("Luna piena")) {
+			message+=":telescope: Attualmente visibile in fase : "+phase+" "+emoji+"\n:globe_with_meridians: In direzione "+direzione+"\n:point_up: A "+(int)azimuth+"° sull'orrizzonte\n"+
+					 ":arrow_up_small: Sorge alle "+alba+"\n"+
+					 ":arrow_down_small: Tramonta alle "+tramonto;
+		}
+		else if(visibile && phase.equals("Luna piena") ) {
+			message+=":telescope: Attualmente è luna piena "+emoji+"\n:globe_with_meridians: In direzione "+direzione+"\n:point_up: A "+(int)azimuth+"° sull'orrizzonte\n"+
+					 ":arrow_up_small: Sorge alle "+alba+"\n"+
+					 ":arrow_down_small: Tramonta alle "+tramonto;
+		}
+		else if(!visibile) {
+			message+=":no_entry_sign: Attualmente non è visibile \n"+
+					 ":arrow_up_small: Sorge alle "+alba+"\n"+
+					 ":arrow_down_small: Tramonta alle "+tramonto;
 		}
 		
 		return EmojiParser.parseToUnicode(message);

@@ -1,5 +1,6 @@
 package it.yboschetto.bot1;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -9,8 +10,12 @@ import it.yboschetto.bot1.*;
 
 @SpringBootApplication
 public class Bot1Application {
-
+	
+	
+	
 	public static void main(String[] args) {
+		
+		
 		
 		ApiContextInitializer.init();
 		TelegramBotsApi botsApi=new TelegramBotsApi();

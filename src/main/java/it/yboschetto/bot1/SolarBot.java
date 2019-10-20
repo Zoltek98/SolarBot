@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -21,21 +20,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.vdurmont.emoji.EmojiParser;
 
-import it.yboschetto.bot1.objects.Direzione;
+import it.yboschetto.bot1.objects.*;
 import it.yboschetto.bot1.objects.GenericObject;
-import it.yboschetto.bot1.objects.Giove;
-import it.yboschetto.bot1.objects.Luna;
-import it.yboschetto.bot1.objects.Nettuno;
-import it.yboschetto.bot1.objects.Saturno;
-import it.yboschetto.bot1.objects.Sole;
-import it.yboschetto.bot1.objects.Urano;
-import newObjects.Marte;
-import newObjects.Mercurio;
-import newObjects.Venere;
+
 /**
  * 
  * @author bosyu
- * @version 0.3
+ * @version 0.7.1b
  * SolarBot 
  *
  */
@@ -56,15 +47,15 @@ public class SolarBot extends TelegramLongPollingBot {
 	String alba, tramonto;
 	Date adesso;
 	Double ecl;
-	Sole sole;
-	Mercurio mercurio;
-	Venere venere;
-	Luna luna;
-	Marte marte;
-	Giove giove;
-	Saturno saturno;
-	Urano urano;
-	Nettuno nettuno;
+	Sun sole ;
+	Mercury mercurio;
+	Venus venere;
+	Moon luna;
+	Mars marte;
+	Jupiter giove;
+	Saturn saturno;
+	Uranus urano;
+	Neptune nettuno;
 	double d;
 	double GMT=2;
 
@@ -91,7 +82,8 @@ public class SolarBot extends TelegramLongPollingBot {
 		username = update.getMessage().getChat().getUserName();
 		long chat_id = update.getMessage().getChatId();
 		SendMessage message = new SendMessage().setChatId(chat_id);
-
+		
+		
 		if (update.hasMessage() && update.getMessage().hasText()) {
 
 			String user_first_name = update.getMessage().getChat().getFirstName();
@@ -135,13 +127,13 @@ public class SolarBot extends TelegramLongPollingBot {
 					answer = Messages.planetsVisible(visibleObjectList);
 
 				} else {
-					answer = Messages.noPlanets(sole.getTramonto());
+					answer = Messages.noPlanets(sole.getTramonto(sole));
 				}
 			} else if (message_text.equals("Alba e Tramonto") || message_text.equals("/AlbaTramonto")) {
 
 				// Chiamata getAlba e getTramonto
-				alba = sole.getAlba();
-				tramonto = sole.getTramonto();
+				alba = sole.getAlba(sole);
+				tramonto = sole.getTramonto(sole);
 				answer=Messages.showSunRiseSet(alba,tramonto);
 			} else if (message_text.equals("Oggetti") || message_text.equals("/Oggetti")) {
 				clear();
@@ -163,6 +155,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				keyboardMarkup.setKeyboard(keyboard);
 				message.setReplyMarkup(keyboardMarkup);
 				answer=Messages.showPlanetaryList();
+				
 
 			} else if (message_text.equals(EmojiParser.parseToUnicode(":back: Torna indietro"))) {
 				clear();
@@ -171,32 +164,39 @@ public class SolarBot extends TelegramLongPollingBot {
 				message.setReplyMarkup(keyboardMarkup);
 				answer=message_text;
 			} else if(message_text.equals("Sole")) {
-				answer=Messages.sunMessage(sole.getAlba(),sole.getTramonto(),Direzione.getDirezione(sole.getAzimuth()),sole.getAltitude(),sole.getDateTramonto());			
+				answer=Messages.sunMessage(
+						
+						sole.getAlba(sole),
+						sole.getTramonto(sole),
+						Utility.getDirezione(sole.getAzimuth()),
+						sole.getAltitude(),
+						sole.getDateTramonto(sole));		
+				
 			} else if (message_text.equals("Mercurio")) {
-				answer = Messages.planetMessage("Mercurio", mercurio.getTramonto(), mercurio.getAlba(),
-						sole.getDateTramonto(), mercurio.isVisible(), Direzione.getDirezione(mercurio.getAzimuth()),
+				answer = Messages.planetMessage("Mercurio", mercurio.getTramonto(sole), mercurio.getAlba(sole),
+						sole.getDateTramonto(sole), mercurio.isVisible(), Utility.getDirezione(mercurio.getAzimuth()),
 						mercurio.getAltitude());
 			} else if (message_text.equals("Venere")) {
-				answer = Messages.planetMessage("Venere", venere.getTramonto(), venere.getAlba(), sole.getDateTramonto(),
-						venere.isVisible(), Direzione.getDirezione(venere.getAzimuth()), venere.getAltitude());
+				answer = Messages.planetMessage("Venere", venere.getTramonto(sole), venere.getAlba(sole), sole.getDateTramonto(sole),
+						venere.isVisible(), Utility.getDirezione(venere.getAzimuth()), venere.getAltitude());
 			} else if (message_text.equals("Luna")) {
-				answer = Messages.planetMessage("Luna", luna.getTramonto(), luna.getAlba(), sole.getDateTramonto(),
-						luna.Visibile(), Direzione.getDirezione(luna.getAzimuth()), luna.getAltitude());
+				answer = Messages.moonMessage(luna.getTramonto(sole), luna.getAlba(sole),
+						luna.isVisible(), Utility.getDirezione(luna.getAzimuth()), luna.getAltitude(),luna.getLunarPhase(),luna.getEmoji());
 			} else if (message_text.equals("Marte")) {
-				answer = Messages.planetMessage("Marte", marte.getTramonto(), marte.getAlba(), sole.getDateTramonto(),
-						marte.isVisible(), Direzione.getDirezione(marte.getAzimuth()), marte.getAltitude());
+				answer = Messages.planetMessage("Marte", marte.getTramonto(sole), marte.getAlba(sole), sole.getDateTramonto(sole),
+						marte.isVisible(), Utility.getDirezione(marte.getAzimuth()), marte.getAltitude());
 			} else if (message_text.equals("Giove")) {
-				answer = Messages.planetMessage("Giove", giove.getTramonto(), giove.getAlba(), sole.getDateTramonto(),
-						giove.Visibile(), Direzione.getDirezione(giove.getAzimuth()), giove.getAltitude());
+				answer = Messages.planetMessage("Giove", giove.getTramonto(sole), giove.getAlba(sole), sole.getDateTramonto(sole),
+						giove.isVisible(), Utility.getDirezione(giove.getAzimuth()), giove.getAltitude());
 			} else if (message_text.equals("Saturno")) {
-				answer = Messages.planetMessage("Saturno", saturno.getTramonto(), saturno.getAlba(), sole.getDateTramonto(),
-						saturno.Visibile(), Direzione.getDirezione(saturno.getAzimuth()), saturno.getAltitude());
+				answer = Messages.planetMessage("Saturno", saturno.getTramonto(sole), saturno.getAlba(sole), sole.getDateTramonto(sole),
+						saturno.isVisible(), Utility.getDirezione(saturno.getAzimuth()), saturno.getAltitude());
 			} else if (message_text.equals("Urano")) {
-				answer = Messages.planetMessage("Urano", urano.getTramonto(), urano.getAlba(), sole.getDateTramonto(),
-						urano.Visibile(), Direzione.getDirezione(urano.getAzimuth()), urano.getAltitude());
+				answer = Messages.planetMessage("Urano", urano.getTramonto(sole), urano.getAlba(sole), sole.getDateTramonto(sole),
+						urano.isVisible(), Utility.getDirezione(urano.getAzimuth()), urano.getAltitude());
 			} else if (message_text.equals("Nettuno")) {
-				answer = Messages.planetMessage("Nettuno", nettuno.getTramonto(), nettuno.getAlba(), sole.getDateTramonto(),
-						nettuno.Visibile(), Direzione.getDirezione(nettuno.getAzimuth()), nettuno.getAltitude());
+				answer = Messages.planetMessage("Nettuno", nettuno.getTramonto(sole), nettuno.getAlba(sole), sole.getDateTramonto(sole),
+						nettuno.isVisible(), Utility.getDirezione(nettuno.getAzimuth()), nettuno.getAltitude());
 			} else if(message_text.equals("42")) {
 				// Inizio EasterEgg
 				
@@ -321,7 +321,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	public boolean checkVisibles() {
 
 		visibleObjectList.clear();
-		if (adesso.after(sole.getDateTramonto()) || adesso.before(sole.getDateAlba())) {
+		if (adesso.after(sole.getDateTramonto(sole)) || adesso.before(sole.getDateAlba(sole))) {
 			// Se è notte
 			if (mercurio.isVisible()) {
 				visibleObjectList.add(new GenericObject("Mercurio", "", "", 1, mercurio.getAzimuth()));
@@ -329,22 +329,22 @@ public class SolarBot extends TelegramLongPollingBot {
 			if (venere.isVisible()) {
 				visibleObjectList.add(new GenericObject("Venere", "", "", 2, venere.getAzimuth()));
 			}
-			if (luna.Visibile()) {
+			if (luna.isVisible()) {
 				visibleObjectList.add(new GenericObject("Luna", "", "", 3, luna.getAzimuth()));
 			}
 			if (marte.isVisible()) {
 				visibleObjectList.add(new GenericObject("Marte", "", "", 4, marte.getAzimuth()));
 			}
-			if (giove.Visibile()) {
+			if (giove.isVisible()) {
 				visibleObjectList.add(new GenericObject("Giove", "", "", 5, giove.getAzimuth()));
 			}
-			if (saturno.Visibile()) {
+			if (saturno.isVisible()) {
 				visibleObjectList.add(new GenericObject("Saturno", "", "", 6, saturno.getAzimuth()));
 			}
-			if (urano.Visibile()) {
+			if (urano.isVisible()) {
 				visibleObjectList.add(new GenericObject("Urano", "", "", 7, urano.getAzimuth()));
 			}
-			if (nettuno.Visibile()) {
+			if (nettuno.isVisible()) {
 				visibleObjectList.add(new GenericObject("Nettuno", "", "", 8, nettuno.getAzimuth()));
 			}
 			return true;
@@ -359,30 +359,30 @@ public class SolarBot extends TelegramLongPollingBot {
 				+ 275 * (1 + adesso.getMonth()) / 9 + adesso.getDate() +1721013.5+(adesso.getHours()-GMT)/24  ;
 		ecl = 23.4393 - 3.563E-7 * d;
 
-		sole = new Sole(d, ecl, adesso);
-		sole.Posizione(latitude, longitude);
+		sole = new Sun();
+		sole.calculateAzimuthalPoistion(latitude, longitude);
 				
 
 	}
 
 	public void initPlanets() {
 
-		mercurio = new Mercurio(new Date());
-		mercurio.calculatePoistion(latitude, longitude);
-		venere = new Venere(new Date());
-		venere.calculatePoistion(latitude, longitude);
-		luna = new Luna(d, ecl, adesso);
-		luna.Posizione(latitude, longitude);
-		marte = new Marte(new Date());
-		marte.calculatePoistion(latitude, longitude);
-		giove = new Giove(d, ecl, adesso);
-		giove.Posizione(latitude, longitude);
-		saturno = new Saturno(d, ecl, adesso);
-		saturno.Posizione(latitude, longitude);
-		urano = new Urano(d, ecl, adesso);
-		urano.Posizione(latitude, longitude);
-		nettuno = new Nettuno(d, ecl, adesso);
-		nettuno.Posizione(latitude, longitude);
+		mercurio = new Mercury();
+		mercurio.calculateAzimuthalPoistion(latitude, longitude);
+		venere = new Venus();
+		venere.calculateAzimuthalPoistion(latitude, longitude);
+		luna = new Moon();
+		luna.calculateAzimuthalPoistion(latitude, longitude);
+		marte = new Mars();
+		marte.calculateAzimuthalPoistion(latitude, longitude);
+		giove = new Jupiter();
+		giove.calculateAzimuthalPoistion(latitude, longitude);
+		saturno = new Saturn();
+		saturno.calculateAzimuthalPoistion(latitude, longitude);
+		urano = new Uranus();
+		urano.calculateAzimuthalPoistion(latitude, longitude);
+		nettuno = new Neptune();
+		nettuno.calculateAzimuthalPoistion(latitude, longitude);
 	}
 
 
