@@ -26,7 +26,7 @@ import it.yboschetto.bot1.objects.GenericObject;
 /**
  * 
  * @author bosyu
- * @version 0.7.1b
+ * @version 0.7.9b
  * SolarBot 
  *
  */
@@ -71,7 +71,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	 private String token_test = "875502005:AAH7wBx1hsmmTio04RI4EgX9ZrDnY9QOl8g";
 	 private String token_prod = "814488899:AAE7n6sUnclziB26FMtuw8HOmy8EEVH0x0c";
 	 
-	private String TOKEN = token_test;
+	private String TOKEN = token_prod;
 	
 	@Value("${log.file.path}")
 	private String PATH;
@@ -120,7 +120,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				message.setReplyMarkup(keyboardMarkup);
 				commands = getCommands();
 				answer = Messages.showCommands(commands);
-			} else if (message_text.equals("Lista Visibili") || message_text.equals("/ListaVisibili")) {
+			} else if (message_text.contains("Lista Visibili") || message_text.equals("/ListaVisibili")) {
 
 				// Check oggetti visibili
 				if (checkVisibles()) {
@@ -130,13 +130,13 @@ public class SolarBot extends TelegramLongPollingBot {
 				} else {
 					answer = Messages.noPlanets(sole.getTramonto(sole));
 				}
-			} else if (message_text.equals("Alba e Tramonto") || message_text.equals("/AlbaTramonto")) {
+			} else if (message_text.contains("Alba/Tramonto") || message_text.equals("/AlbaTramonto")) {
 
 				// Chiamata getAlba e getTramonto
 				alba = sole.getAlba(sole);
 				tramonto = sole.getTramonto(sole);
 				answer=Messages.showSunRiseSet(alba,tramonto);
-			} else if (message_text.equals("Oggetti") || message_text.equals("/Oggetti")) {
+			} else if (message_text.contains("Oggetti") || message_text.equals("/Oggetti")) {
 				clear();
 				row.add("Sole");
 				row.add("Mercurio");
@@ -148,6 +148,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				row3.add("Urano");
 				row3.add("Nettuno");
 				row4.add(EmojiParser.parseToUnicode(":back: Torna indietro"));
+				row4.add("Plutone (beta)");
 				keyboard.add(row);
 				keyboard.add(row2);
 				keyboard.add(row3);
@@ -198,6 +199,9 @@ public class SolarBot extends TelegramLongPollingBot {
 			} else if (message_text.equals("Nettuno")) {
 				answer = Messages.planetMessage("Nettuno", nettuno.getTramonto(sole), nettuno.getAlba(sole), sole.getDateTramonto(sole),
 						nettuno.isVisible(), Utility.getDirezione(nettuno.getAzimuth()), nettuno.getAltitude());
+			} else if (message_text.contains("Plutone")) {
+				answer = Messages.planetMessage("Plutone", plutone.getTramonto(sole), plutone.getAlba(sole), sole.getDateTramonto(sole),
+						plutone.isVisible(), Utility.getDirezione(plutone.getAzimuth()), plutone.getAltitude());
 			} else if(message_text.equals("42")) {
 				// Inizio EasterEgg
 				
@@ -298,12 +302,12 @@ public class SolarBot extends TelegramLongPollingBot {
 		// row.add("Lista Visibili");
 		KeyboardButton key = new KeyboardButton();
 		key.setRequestLocation(true);
-		key.setText("Imposta posizione");
-		row.add("Lista Visibili");
-		row.add("Alba e Tramonto");
-		row.add("Oggetti");
+		key.setText(EmojiParser.parseToUnicode(":pushpin: Imposta posizione"));
+		row.add(EmojiParser.parseToUnicode(":page_facing_up: Lista Visibili"));
+		row.add(EmojiParser.parseToUnicode(":sunrise: Alba/Tramonto"));
+		row.add(EmojiParser.parseToUnicode(":telescope: Oggetti"));
 		keyboard.add(row);
-		row2.add("Lista comandi");
+		row2.add(EmojiParser.parseToUnicode(":clipboard: Lista comandi"));
 		row2.add(key);
 		keyboard.add(row2);
 	}
