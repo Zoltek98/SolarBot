@@ -56,8 +56,9 @@ public class SolarBot extends TelegramLongPollingBot {
 	Saturn saturno;
 	Uranus urano;
 	Neptune nettuno;
+	Pluto plutone;
 	double d;
-	double GMT=2;
+	double GMT=Utility.GMT;
 
 	double latitude = 0, longitude = 0;
 
@@ -347,6 +348,9 @@ public class SolarBot extends TelegramLongPollingBot {
 			if (nettuno.isVisible()) {
 				visibleObjectList.add(new GenericObject("Nettuno", "", "", 8, nettuno.getAzimuth()));
 			}
+			if (plutone.isVisible()) {
+				visibleObjectList.add(new GenericObject("Plutone", "", "", 8, plutone.getAzimuth()));
+			}
 			return true;
 		}
 		// else non è notte
@@ -383,6 +387,8 @@ public class SolarBot extends TelegramLongPollingBot {
 		urano.calculateAzimuthalPoistion(latitude, longitude);
 		nettuno = new Neptune();
 		nettuno.calculateAzimuthalPoistion(latitude, longitude);
+		plutone = new Pluto();
+		plutone.calculateAzimuthalPoistion(latitude, longitude);
 	}
 
 
