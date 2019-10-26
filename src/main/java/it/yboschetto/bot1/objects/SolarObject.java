@@ -23,7 +23,7 @@ public class SolarObject {
     protected double longitude;
     protected double latitude;
     private Calendar now;
-    private Sun sun;
+    protected Sun sun;
 
     public SolarObject(){
 
@@ -100,7 +100,7 @@ public class SolarObject {
         this.longitude=longitude;
         this.latitude= lat;
         calculatePosition();
-        double GMST0, UT, UTC = 2;
+        double GMST0, UT, UTC= GMT;
 
         GMST0 = (sun.getL() + 180) / 15;
         UT = rev24(Utility.getHour() - UTC);
@@ -291,6 +291,18 @@ public class SolarObject {
 
     public double getDEC() {
         return DEC;
+    }
+
+    public double getXeclip(){
+        return xeclip;
+    }
+
+    public double getR() {
+        return r;
+    }
+
+    public double getLon() {
+        return lon;
     }
 }
 

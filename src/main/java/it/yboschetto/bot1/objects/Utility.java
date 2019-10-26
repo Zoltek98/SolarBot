@@ -3,11 +3,12 @@ package it.yboschetto.bot1.objects;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Utility {
 
 	private static double JD,ecl;
-	public final static double GMT=2;
+	public static double GMT;
 	public final static double PI = 3.14159265358979323846;
     static double RAD = PI / 180;
     static double DEG = 180 / PI;
@@ -77,6 +78,8 @@ public class Utility {
         month = calendar.get(Calendar.MONTH) + 1;
         year = calendar.get(Calendar.YEAR);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
+        TimeZone timezone = calendar.getTimeZone();
+        GMT = (timezone.getOffset(adesso.getTime().getTime())/1000/60)/60;
 
         //day = 19;
         //month = 4;
