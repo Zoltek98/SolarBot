@@ -1,6 +1,8 @@
 package it.yboschetto.bot1;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	KeyboardRow row4 = new KeyboardRow();
 	String message_text;
 	String answer = "NaN";
-	String username, commands, city = "";
+	String username, commands, city = "",user_first_name,user_last_name;
 	String alba, tramonto;
 	Date adesso;
 	Double ecl;
@@ -59,8 +61,10 @@ public class SolarBot extends TelegramLongPollingBot {
 	Pluto plutone;
 	double d;
 	double GMT=Utility.GMT;
+	long user_id;
 
 	double latitude = 0, longitude = 0;
+	PrintWriter out;
 
 	@Value("${comands.list}")
 	private String[] comandi = {"/comandi - Mostra la lista dei comandi ","/AlbaTramonto - Mostra alba e tramonto di oggi","/ListaVisibili - Mostra tutti gli oggetti attulmente visibili e la loro posizione","/Oggetti - Apre una tastiera da cui e' possbile accedere ai dati dei vari oggetti"};
@@ -71,7 +75,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	 private String token_test = "875502005:AAH7wBx1hsmmTio04RI4EgX9ZrDnY9QOl8g";
 	 private String token_prod = "814488899:AAE7n6sUnclziB26FMtuw8HOmy8EEVH0x0c";
 	 
-	private String TOKEN = token_prod;
+	private String TOKEN = token_test;
 	
 	@Value("${log.file.path}")
 	private String PATH;
@@ -87,9 +91,9 @@ public class SolarBot extends TelegramLongPollingBot {
 		
 		if (update.hasMessage() && update.getMessage().hasText()) {
 
-			String user_first_name = update.getMessage().getChat().getFirstName();
-			String user_last_name = update.getMessage().getChat().getLastName();
-			long user_id = update.getMessage().getChat().getId();
+			user_first_name = update.getMessage().getChat().getFirstName();
+			user_last_name = update.getMessage().getChat().getLastName();
+			user_id = update.getMessage().getChat().getId();
 
 			init();
 			initPlanets();
@@ -110,7 +114,7 @@ public class SolarBot extends TelegramLongPollingBot {
 				answer=Messages.utonto();						//Non ha immesso la posizione 
 			}
 
-			else if (message_text.equals("/comandi") || message_text.equals("Lista comandi")) {
+			else if (message_text.equals("/comandi") || message_text.contains("Lista comandi")) {
 
 				clear();
 
@@ -224,7 +228,7 @@ public class SolarBot extends TelegramLongPollingBot {
 			//Fine easter egg
 			
 
-			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
+			
 
 		} else if (update.hasMessage() && update.getMessage().getLocation() != null) {
 			latitude = update.getMessage().getLocation().getLatitude();
@@ -250,6 +254,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		System.out.println("\n ----------------------------\nLatitudine : "+latitude+"\nLongitudine : "+longitude);
 		try {
 			//System.out.println(System.getProperty("user.dir"));
+			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
 			message.setText(answer); 
 			execute(message);
 
@@ -280,13 +285,24 @@ public class SolarBot extends TelegramLongPollingBot {
 	}
 
 	private void log(String first_name, String last_name, String user_id, String txt, String bot_answer) {
-		System.out.println("\n ----------------------------");
+		//System.out.println("\n ----------------------------");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		System.out.println(dateFormat.format(date));
-		System.out
-				.println("Message from " + first_name + " " + last_name + ". (id = " + user_id + ") \n Text - " + txt);
-		System.out.println("Bot answer: \n Text - " + bot_answer);
+//		System.out.println(dateFormat.format(date));
+//		System.out
+//				.println("Message from " + first_name + " " + last_name + ". (id = " + user_id + ") \n Text - " + txt);
+//		System.out.println("Bot answer: Text - " + bot_answer);
+		String text = dateFormat.format(date)+"	Message from " + first_name + ". (id = " + user_id + ")  Text - " + txt+"\n";
+		text += dateFormat.format(date) + "	Bot answer: Text - " + bot_answer;
+		try {
+			out = new PrintWriter("D:\\Codice\\Bot\\log.txt");
+			out.write(text); 
+			out.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
 	
 	}
 
@@ -394,6 +410,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		plutone = new Pluto();
 		plutone.calculateAzimuthalPoistion(latitude, longitude);
 	}
+	
 
 
 }

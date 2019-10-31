@@ -44,35 +44,35 @@ public class Moon extends SolarObject {
 	    public String getLunarPhase(){
 	        double phaseDouble = getNumericPhase();
 	        String phase = "";
-	        if(phaseDouble>27.6 || phaseDouble < 1.6 ){
+	        if(phaseDouble>27.6 && phaseDouble < 1.6 ){
 	            phase = "Luna nuova";
 	            emoji = ":new_moon:";
 	        }
-	        else if(phaseDouble>1.6 || phaseDouble < 5.4 ){
+	        else if(phaseDouble>1.6 && phaseDouble < 5.4 ){
 	            phase = "Luna crescente";
 	            emoji = ":waning_crescent_moon:";
 	        }
-	        else if(phaseDouble>5.4 || phaseDouble < 8.6 ){
+	        else if(phaseDouble>5.4 && phaseDouble < 8.6 ){
 	            phase = "Primo quarto";
 	            emoji = ":last_quarter_moon:";
 	        }
-	        else if(phaseDouble>8.6 || phaseDouble < 12.4 ){
+	        else if(phaseDouble>8.6 && phaseDouble < 12.4 ){
 	            phase = "Gibbosa crescente";
 	            emoji = ":waning_gibbous_moon:";
 	        }
-	        else if(phaseDouble>12.4 || phaseDouble < 16.6 ){
+	        else if(phaseDouble>12.4 && phaseDouble < 16.6 ){
 	            phase = "Luna piena";
 	            emoji = ":full_moon:";
 	        }
-	        else if(phaseDouble>16.6 || phaseDouble < 20.4 ){
+	        else if(phaseDouble>16.6 && phaseDouble < 20.4 ){
 	            phase = "Gibbosa calante";
 	            emoji = ":waxing_gibbous_moon:";
 	        }
-	        else if(phaseDouble>20.4|| phaseDouble <  23.6){
+	        else if(phaseDouble>20.4&& phaseDouble <  23.6){
 	            phase = "Ultimo quarto";
 	            emoji = ":first_quarter_moon:";
 	        }
-	        else if(phaseDouble>23.6 || phaseDouble < 27.6 ){
+	        else if(phaseDouble>23.6 && phaseDouble < 27.6 ){
 	            phase = "Luna calante";
 	            emoji = ":waxing_crescent_moon:";
 	        }
