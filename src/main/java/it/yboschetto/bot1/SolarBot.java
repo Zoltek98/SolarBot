@@ -254,7 +254,7 @@ public class SolarBot extends TelegramLongPollingBot {
 		System.out.println("\n ----------------------------\nLatitudine : "+latitude+"\nLongitudine : "+longitude);
 		try {
 			//System.out.println(System.getProperty("user.dir"));
-			log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
+			//log(user_first_name, user_last_name, Long.toString(user_id), message_text, answer);
 			message.setText(answer); 
 			execute(message);
 
