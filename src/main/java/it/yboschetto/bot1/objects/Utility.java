@@ -74,6 +74,7 @@ public class Utility {
 	public static void calculateJulianDate(Calendar adesso) {
         int day,month,year;
         Calendar calendar=adesso;
+        adesso.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
         day = calendar.get(Calendar.DATE);
         month = calendar.get(Calendar.MONTH) + 1;
         year = calendar.get(Calendar.YEAR);
