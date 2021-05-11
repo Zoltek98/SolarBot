@@ -75,7 +75,7 @@ public class SolarBot extends TelegramLongPollingBot {
 	 private String token_test = "875502005:AAH7wBx1hsmmTio04RI4EgX9ZrDnY9QOl8g";
 	 private String token_prod = "814488899:AAE7n6sUnclziB26FMtuw8HOmy8EEVH0x0c";
 	 
-	private String TOKEN = token_prod;
+	private String TOKEN = token_test;
 	
 	@Value("${log.file.path}")
 	private String PATH;
